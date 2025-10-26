@@ -217,6 +217,7 @@ json_glib_dep = dependency('json-glib-1.0')
 appstream_dep = dependency('appstream', version : '>=0.12.0')
 gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0')
 libseccomp_dep = dependency('libseccomp', required : get_option('seccomp'))
+libopenscap_dep = dependency('libopenscap', version: '>= 1.2.0')
 gir_dep = dependency('gobject-introspection-1.0', version : '>=1.40.0', required : get_option('gir'))
 gtkdoc_dep = dependency('gtk-doc', required : get_option('gtkdoc'), native : true)
 build_gtk_doc = gtkdoc_dep.found()
@@ -412,12 +413,12 @@ if malcontent_dep.found()
   cdata.set('HAVE_LIBMALCONTENT', 1)
 endif
 
-if xau_dep.found()
-  cdata.set('ENABLE_XAUTH', 1)
+if libopenscap_dep.found()
+  cdata.set('HAVE_OPENSCAP', 1)
 endif
 
-if build_wayland_security_context
-  cdata.set('ENABLE_WAYLAND_SECURITY_CONTEXT', 1)
+if xau_dep.found()
+  cdata.set('ENABLE_XAUTH', 1)
 endif
 
 if not get_option('sandboxed_triggers')
@@ -449,6 +450,7 @@ summary(
     'Build selinux module' : build_selinux_module,
     'Build bubblewrap' : (get_option('system_bubblewrap') == ''),
     'Build dbus-proxy' : (get_option('system_dbus_proxy') == ''),
+    'Use OpenSCAP' : libopenscap_dep.found(),
     'fusermount executable' : fusermount,
     'Use sandboxed triggers' : get_option('sandboxed_triggers'),
     'Use seccomp' : libseccomp_dep.found(),

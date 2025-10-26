@@ -68,6 +68,7 @@
 #include "flatpak-document-dbus-generated.h"
 #include "flatpak-error.h"
 #include "session-helper/flatpak-session-helper.h"
+#include "flatpak-openscap.h"
 
 #define DEFAULT_SHELL "/bin/sh"
 
@@ -3050,7 +3051,6 @@ flatpak_run_app (FlatpakDecomposed   *app_ref,
   g_assert (run_environ != NULL);
 
   g_return_val_if_fail (app_ref != NULL, FALSE);
-
   /* This check exists to stop accidental usage of `sudo flatpak run`
      and is not to prevent running as root.
    */
@@ -3101,6 +3101,23 @@ flatpak_run_app (FlatpakDecomposed   *app_ref,
           return FALSE;
         }
     }
+
+    //remove later
+    g_autoptr(GError) openscap_error = NULL;
+    g_autoptr(FlatpakOpenscapContext) openscap_context = NULL;
+      openscap_context = flatpak_openscap_context_new ("/home/astra/flatpak_calc.xml", &openscap_error);
+      if (openscap_error) {
+        g_propagate_error (error, g_steal_pointer (&openscap_error));
+        return FALSE;
+      }
+      g_autoptr(GError) openscap_scan_error = NULL;
+      if (openscap_context != NULL && app_deploy != NULL) {
+        g_autofree char *app_files_path = NULL;
+        g_autoptr(GFile) app_files_dir = flatpak_deploy_get_files (app_deploy);
+        app_files_path = g_file_get_path (app_files_dir);
+        flatpak_openscap_context_run_scap (openscap_context, app_files_path, &openscap_scan_error);
+      }
+    //
 
   default_runtime = flatpak_decomposed_new_from_pref (FLATPAK_KINDS_RUNTIME, default_runtime_pref, error);
   if (default_runtime == NULL)

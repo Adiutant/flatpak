@@ -250,3 +250,9 @@ option(
   description : 'options to pass to xmlto',
   value : [],
 )
+option(
+  'openscap',
+  type : 'feature',
+  value : 'auto',
+  description : 'Enable OpenSCAP integration for security scanning'
+)

@@ -133,6 +133,7 @@ libflatpak_common_deps = [
   malcontent_dep,
   polkit_agent_dep,
   xau_dep,
+  libopenscap_dep,
 ]
 built_sources = []
 
@@ -221,6 +222,7 @@ sources = [
   'flatpak-usb.c',
   'flatpak-xml-utils.c',
   'flatpak-zstd-decompressor.c',
+  'flatpak-openscap.c',
 ]
 
 if malcontent_dep.found()
