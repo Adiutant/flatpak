@@ -3105,7 +3105,7 @@ flatpak_run_app (FlatpakDecomposed   *app_ref,
     //remove later
     g_autoptr(GError) openscap_error = NULL;
     g_autoptr(FlatpakOpenscapContext) openscap_context = NULL;
-      openscap_context = flatpak_openscap_context_new ("/home/astra/flatpak_calc.xml", &openscap_error);
+      openscap_context = flatpak_openscap_context_new ("/home/astra/oval-definitions-alse-1.8.xml", &openscap_error);
       if (openscap_error) {
         g_propagate_error (error, g_steal_pointer (&openscap_error));
         return FALSE;
@@ -3592,7 +3592,8 @@ flatpak_run_app (FlatpakDecomposed   *app_ref,
     }
 
   flatpak_bwrap_populate_runtime_dir (bwrap, shared_xdg_runtime_dir);
-
+commandline = flatpak_quote_argv ((const char **) bwrap->argv->pdata, -1);
+  printf("Running '%s'", commandline);
   if (custom_command)
     {
       command = custom_command;
@@ -3631,8 +3632,8 @@ flatpak_run_app (FlatpakDecomposed   *app_ref,
   flatpak_bwrap_finish (bwrap);
 
   commandline = flatpak_quote_argv ((const char **) bwrap->argv->pdata, -1);
+  printf("Running '%s'", commandline);
   g_info ("Running '%s'", commandline);
-
   if ((flags & (FLATPAK_RUN_FLAG_BACKGROUND)) != 0 ||
       g_getenv ("FLATPAK_TEST_COVERAGE") != NULL)
     {
