@@ -33,3 +33,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 Here are some notable projects in the Flatpak ecosystem:
 * [Flatseal](https://github.com/tchx84/flatseal): An app for managing permissions of Flatpak apps without using the CLI
 * [Flat-manager](https://github.com/flatpak/flat-manager): A tool for managing Flatpak repositories
+
+# Dependencies
+sudo apt install git build-essential meson cmake libglib2.0-dev bison libcap-dev libarchive-dev libcurl4-openssl-dev libxml2-dev fuse libfuse-dev libxau-dev libostree-dev libjson-glib-dev libappstream-dev libgdk-pixbuf-2.0-dev libseccomp-dev libopenscap-dev libgpgme11-dev python3 python3-pip python3-pyparsing socat
+
+`DISABLE SYSTEM_HELPER FOR POLKIT`
